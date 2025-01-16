@@ -26,7 +26,7 @@ const registerUser = async(newUser) => {
 export function Startup(){
   const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery("affirmation_users", fetchData); // 'moods' is the unique key for this query
-  
+
   const mutation = useMutation(registerUser, {
     onSuccess: () => {
       queryClient.invalidateQueries("affirmation_users");
