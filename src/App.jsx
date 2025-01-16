@@ -20,8 +20,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Startup />} />
-        <Route path="/moodSelector" element={<MoodSelector />} />
-        <Route path="/profile" element={<Profile />} />  
+        <Route path="/moodSelectorPage" element={<MoodSelector />} />
+        <Route path="/profilePage" element={<Profile />} />  
       </Routes>
     </BrowserRouter>
     </>
