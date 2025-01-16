@@ -1,0 +1,182 @@
+{
+  "affirmation_users": [
+    {
+      "id": 1,
+      "username": "Dean",
+      "affirmations": []
+    }
+  ],
+  "moods": [
+    {
+      "id": 1,
+      "name": "Happy",
+      "emoji": "😊",
+      "category": "Positive"
+    },
+    {
+      "id": 2,
+      "name": "Calm",
+      "emoji": "🌊",
+      "category": "Positive"
+    },
+    {
+      "id": 3,
+      "name": "Energized",
+      "emoji": "⚡",
+      "category": "Positive"
+    },
+    {
+      "id": 4,
+      "name": "Reflective",
+      "emoji": "🧘",
+      "category": "Neutral"
+    },
+    {
+      "id": 5,
+      "name": "Hopeful",
+      "emoji": "🌄",
+      "category": "Positive"
+    },
+    {
+      "id": 6,
+      "name": "Tired",
+      "emoji": "😴",
+      "category": "Negative"
+    },
+    {
+      "id": 7,
+      "name": "Anxious",
+      "emoji": "😟",
+      "category": "Negative"
+    },
+    {
+      "id": 8,
+      "name": "Content",
+      "emoji": "😌",
+      "category": "Neutral"
+    },
+    {
+      "id": 9,
+      "name": "Stressed",
+      "emoji": "😣",
+      "category": "Negative"
+    },
+    {
+      "id": 10,
+      "name": "Curious",
+      "emoji": "🤔",
+      "category": "Neutral"
+    },
+    {
+      "id": 11,
+      "name": "Excited",
+      "emoji": "🎉",
+      "category": "Positive"
+    },
+    {
+      "id": 12,
+      "name": "Lonely",
+      "emoji": "😔",
+      "category": "Negative"
+    }
+  ],
+  "shelf_help_users": [
+    {
+      "id": 1,
+      "username": "Dean",
+      "collection": []
+    }
+  ],
+  "shelf_help_books": [
+    {
+      "id": 1,
+      "isbn": "0001234567",
+      "title": "The Art of Doing Nothing: A Comprehensive Guide to Procrastination",
+      "author": "Laz E. Bones",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/The%20Art%20of%20Doing%20Nothing_%20A%20Comprehensive%20Guide%20to%20Procrastination.png?v=1733472898875",
+      "rating": 0,
+      "blurb": "Feeling overwhelmed by productivity gurus? Dive into 'The Art of Doing Nothing,' where Laz E. Bones teaches you the zen of achieving absolutely nothing in the most laid-back manner possible. Learn the sacred rituals of couch-sitting, snack-consuming, and avoiding tasks with precision. This book won't change your life, but that's kind of the point."
+    },
+    {
+      "id": 2,
+      "isbn": "0007654321",
+      "title": "10 Steps to Overthinking: Master the What-If Game",
+      "author": "Anx Iety",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/10%20Steps%20to%20Overthinking_%20Master%20the%20What-If%20Game.png?v=1733472891690",
+      "rating": 0,
+      "blurb": "Join Anx Iety on a journey to master the art of overthinking. From creating hypothetical disasters to perfecting worst-case scenarios, this guide offers ten comprehensive steps to turn even the smallest problem into an existential crisis. Includes bonus chapters on how to annoy your friends with constant 'what-ifs.'"
+    },
+    {
+      "id": 3,
+      "isbn": "0012345678",
+      "title": "The Zen of Zoning Out: A Mindfulness Guide to Daydreaming",
+      "author": "Drift A. Way",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/The%20Zen%20of%20Zoning%20Out_%20A%20Mindfulness%20Guide%20to%20Daydreaming.png?v=1733472893565",
+      "rating": 0,
+      "blurb": "Tired of meditation that requires focus? 'The Zen of Zoning Out' celebrates the fine art of staring into space. Dr. Drift A. Way explores how letting your mind wander can lead to unexpected insights and a sense of peace—if you can remember what you were thinking about."
+    },
+    {
+      "id": 4,
+      "isbn": "9876543210",
+      "title": "Cooking for One and Pretending It’s Fine",
+      "author": "Soli Tude",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/Cooking%20for%20One%20and%20Pretending%20It%E2%80%99s%20Fine.png?v=1733472894991",
+      "rating": 0,
+      "blurb": "A culinary masterpiece for the solo chef. From single-serving spaghetti to tiny cupcakes, Soli Tude shows you how to create meals that say, 'I'm fine, really,' while secretly crying over leftovers. Includes wine-pairing suggestions for every course: red, white, or a full bottle."
+    },
+    {
+      "id": 5,
+      "isbn": "1234567890",
+      "title": "Extreme Couch Sitting: An Athlete’s Guide",
+      "author": "Recl Ina",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/Extreme%20Couch%20Sitting_%20An%20Athlete%E2%80%99s%20Guide.png?v=1733472896286",
+      "rating": 0,
+      "blurb": "Think you’ve mastered the art of relaxation? Think again. Recl Ina takes you on a journey to become a pro couch athlete. Learn advanced techniques like the 'Netflix Slouch,' 'Snack Grab Reach,' and 'Remote Control Juggle.' This book will elevate your lounging game to Olympian levels."
+    },
+    {
+      "id": 6,
+      "isbn": "5551234567",
+      "title": "How to Be Late for Everything: A Masterclass",
+      "author": "Delay Tactics",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/How%20to%20Be%20Late%20for%20Everything.png?v=1733472900498",
+      "rating": 0,
+      "blurb": "Why be on time when you can make a fashionable entrance? Delay Tactics teaches the art of showing up late for every occasion without a shred of guilt. From strategic excuses to perfectly mistimed departures, this book is your ultimate guide to tardiness."
+    },
+    {
+      "id": 7,
+      "isbn": "5557654321",
+      "title": "The Introvert’s Guide to Avoiding People",
+      "author": "Shy McHide",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/The%20Introvert%E2%80%99s%20Guide%20to%20Avoiding%20People.png?v=1733472878376",
+      "rating": 0,
+      "blurb": "Tired of small talk and socializing? 'The Introvert’s Guide to Avoiding People' is here to save the day. Shy McHide offers life-changing strategies for navigating parties, dodging phone calls, and ghosting your way to personal freedom."
+    },
+    {
+      "id": 8,
+      "isbn": "5559876543",
+      "title": "Overachieving for Underachievers: How to Fake It",
+      "author": "Pro Crastinator",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/Overachieving%20for%20Underachievers_%20How%20to%20Fake%20It.png?v=1733472901824",
+      "rating": 0,
+      "blurb": "Pro Crastinator reveals the secrets to looking like you're crushing it while doing the bare minimum. From writing impressive LinkedIn updates to mastering the art of humblebragging, this guide will make you the envy of your peers without breaking a sweat."
+    },
+    {
+      "id": 9,
+      "isbn": "5554567890",
+      "title": "Sleeping Through Life: Productivity While Napping",
+      "author": "Snoo Zzz",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/Sleeping%20Through%20Life_%20Productivity%20While%20Napping.png?v=1733472903178",
+      "rating": 0,
+      "blurb": "Why work harder when you can nap smarter? Snoo Zzz teaches the revolutionary nap-based productivity system. Learn how to dream up solutions to life's problems, snooze through stress, and still get the credit for being a go-getter."
+    },
+    {
+      "id": 10,
+      "isbn": "5556543210",
+      "title": "The Art of Ignoring Red Flags: Dating Like a Pro",
+      "author": "Love Blind",
+      "coverImg": "https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/The%20Art%20of%20Ignoring%20Red%20Flags_%20Dating%20Like%20a%20Pro.png?v=1733472904671",
+      "rating": 0,
+      "blurb": "Are you too good at spotting dealbreakers? Love Blind shows you how to blissfully ignore red flags and dive headfirst into questionable relationships. Packed with tips for rationalizing bad behavior, this book is a must-read for the romantically reckless."
+    }
+  ]
+}
