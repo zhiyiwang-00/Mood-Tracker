@@ -21,7 +21,7 @@ export function Navbar() {
           <div className="title">Welcome to Mood Tracker 😁</div>
           <div className="navigation">
             {/* TODO: set startupPage as default page*/}
-            <a href="/moodSelectorPage" className="nav_table">Mood Selector</a>
+            <a href="/moodSelector" className="nav_table">Mood Selector</a>
             <a href="/profilePage" className="nav_table">Dean</a> 
             <button className="logout_button">Logout</button> {/*Go back to startup page when click on*/}
       </div> 
