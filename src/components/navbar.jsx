@@ -25,6 +25,7 @@ export function Navbar() {
             <a href="/profilePage" className="nav_table">Dean <i className="glyphicon glyphicon-user"></i>
             </a> 
             <button id="logout_button">Logout</button> {/*Go back to startup page when click on*/}
+
       </div> 
       </div>
       </> 
