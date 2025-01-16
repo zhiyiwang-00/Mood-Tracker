@@ -197,12 +197,7 @@ body {
   width: 90%;
   display: block;
   margin: 0 auto;
-
-  }
-    /*
-.top-bar .navigation a:hover {
-  background-color: #555;
-} */
+}
 
 #mainContainer {
   display: flex;
