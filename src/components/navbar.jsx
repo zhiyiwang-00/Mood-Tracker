@@ -18,12 +18,13 @@ export function Navbar() {
       </div> */}
   
       <div className="nav-bar">
-          <div className="title">Welcome to Mood Tracker 😁</div>
+          <p className="title">Welcome to Mood Tracker 😁</p>
           <div className="navigation">
             {/* TODO: set startupPage as default page*/}
             <a href="/moodSelectorPage" className="nav_table">Mood Selector</a>
-            <a href="/profilePage" className="nav_table">Dean</a> 
-            <button className="logout_button">Logout</button> {/*Go back to startup page when click on*/}
+            <a href="/profilePage" className="nav_table">Dean <i className="glyphicon glyphicon-user"></i>
+            </a> 
+            <button id="logout_button">Logout</button> {/*Go back to startup page when click on*/}
       </div> 
       </div>
       </> 

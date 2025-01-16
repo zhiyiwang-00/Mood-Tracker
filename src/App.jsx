@@ -7,7 +7,7 @@ import {
 import { Navbar } from "./components/navbar";
 import { Startup } from "./pages/startupPage";
 // import { MoodSelector } from "./pages/moodSelectorPage";
-// import { Profile } from "./pages/profilePage";
+import { Profile } from "./pages/profilePage";
 import './App.css'
 
 function App() {
@@ -18,8 +18,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Startup />} />
-        {/* <Route path="/mood_selector" element={<MoodSelector />} />
-        <Route path="/profile" element={<Profile />} />  */}
+        {/* <Route path="/mood_selector" element={<MoodSelector />} /> */}
+        <Route path="/profilePage" element={<Profile />} />
       </Routes>
     </BrowserRouter>
     </>
