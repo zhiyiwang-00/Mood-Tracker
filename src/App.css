@@ -93,6 +93,15 @@ body {
 .login-window button:hover {
   background-color: #555;
 }
+
+.nav_table {
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  /* background-color: #4d9970; */
+  color: white;
+  padding: 30px;
+}
   
 /* .login-window input{
   position: absolute;

@@ -5,7 +5,9 @@ import {
   Route,
 } from "react-router-dom";
 import { Navbar } from "./components/navbar";
-import { Startup } from "./pages/startup";
+import { Startup } from "./pages/startupPage";
+// import { MoodSelector } from "./pages/moodSelectorPage";
+// import { Profile } from "./pages/profilePage";
 import './App.css'
 
 function App() {
@@ -15,8 +17,9 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/startup" element={<Startup />} />
-        {/* <Route path="/startup" element={<Startup />} /> */}
+        <Route exact path="/" element={<Startup />} />
+        {/* <Route path="/mood_selector" element={<MoodSelector />} />
+        <Route path="/profile" element={<Profile />} />  */}
       </Routes>
     </BrowserRouter>
     </>
