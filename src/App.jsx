@@ -6,8 +6,10 @@ import {
 } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { Startup } from "./pages/startupPage";
+
 import { MoodSelector } from "./pages/moodSelectorPage";
-// import { Profile } from "./pages/profilePage";
+import { Profile } from "./pages/profilePage";
+
 import './App.css'
 
 function App() {
@@ -19,7 +21,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Startup />} />
         <Route path="/moodSelector" element={<MoodSelector />} />
-        {/* <Route path="/profile" element={<Profile />} />  */}
+        <Route path="/profile" element={<Profile />} />  
       </Routes>
     </BrowserRouter>
     </>
