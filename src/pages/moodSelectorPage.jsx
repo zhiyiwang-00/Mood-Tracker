@@ -80,7 +80,7 @@ export function MoodSelector() {
   });
 
   return (
-    <div id="mainContainer">
+    <div className="mainContainer">
       <div id="container" className="d-flex flex-column justify-content-around">
         <MoodButtons
           moodData={moodData}

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 
 export function MoodButtons({ onMoodSelectionChange, resetToggle, moodData }) {
   const [selectedMoods, setSelectedMoods] = useState([]);
