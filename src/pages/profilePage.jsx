@@ -8,14 +8,12 @@ export function Profile(){
 
     const [moodHistory, setMoodHistory] = useState([]);
 
-    // This useEffect runs once when the component mounts and sets the mood history state if the user is logged in
     useEffect(() => {  
         if(loggedInUser){
             setMoodHistory(loggedInUser.mood_history);
         }
     }, []);
 
-    // This useEffect runs whenever the moodHistory state changes and updates the DOM with the new mood history
     useEffect(() => {
         const moodHistoryList = document.getElementById("mood_history");
         if(moodHistoryList){
@@ -28,6 +26,35 @@ export function Profile(){
         }
     }, [moodHistory]);
 
+    async function updateMoodHistoryOnServer(updatedMoodHistory){
+        console.log(updatedMoodHistory);
+        console.log(loggedInUser.id);
+
+        try {
+            const response = await fetch(`https://troubled-fuchsia-crocodile.glitch.me/affirmation_users/${loggedInUser.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({mood_history: updatedMoodHistory }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update mood history on the server');            
+            }
+        } catch (error) {
+            console.error('Error updating mood history:', error);
+        }
+    }
+
+
+    function clearMoodHistory(){
+        const updatedMoodHistory = [];
+        setMoodHistory(updatedMoodHistory);
+        loggedInUser.mood_history = updatedMoodHistory;
+        localStorage.setItem("user", JSON.stringify(loggedInUser));
+        updateMoodHistoryOnServer(updatedMoodHistory);
+    }
+
     return (
         <>
         <div className="container">
@@ -36,7 +63,7 @@ export function Profile(){
                 <ul id="mood_history">
                     {/* <li>😪</li> */}
                 </ul>
-                <button id="clear_history">Clear Mood Log History</button>
+                <button id="clear_history" onClick={clearMoodHistory}>Clear Mood Log History</button>
             </div>
             <div className="affirmation-display">
                 <span>Your overall mood has been: <span id="mood_overall" style={{color: "white"}}>Positive</span></span>

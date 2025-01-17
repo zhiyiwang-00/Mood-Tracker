@@ -2,7 +2,7 @@
 import {
   BrowserRouter,
   Routes,
-  Route,
+  Route
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -16,7 +16,6 @@ import './App.css'
 const queryClient = new QueryClient();
 
 function App() {
-  // const [count, setCount] = useState(0)
   return (
     <>
     <BrowserRouter><QueryClientProvider client={queryClient}>
@@ -28,6 +27,7 @@ function App() {
       </Routes>
       </QueryClientProvider>
     </BrowserRouter>
+  
     </>
   )
 }
