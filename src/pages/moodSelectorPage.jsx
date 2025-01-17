@@ -10,6 +10,12 @@ const fetchData = async () => {
 };
 
 export function MoodSelector() {
+  let loggedInUser = JSON.parse(localStorage.getItem("user"));
+  if(!loggedInUser){
+      window.location.href = "/";
+  }
+
+
   const { data, isLoading, error } = useQuery("moods", fetchData); // 'moods' is the unique key for this query
 
   if (isLoading) return <p>Loading...</p>;
