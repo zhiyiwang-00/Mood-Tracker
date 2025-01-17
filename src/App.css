@@ -216,7 +216,11 @@ body {
 }
 
 .moodBtn {
-  width: 25%;
-  margin: 10px;
+  width: 100%;
   padding: 0.6em;
+}
+
+#box {
+  width: 25%;
+  margin: 8px;
 }
