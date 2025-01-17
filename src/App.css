@@ -210,9 +210,10 @@ body {
 #container {
   background-color: #4d9970;
   width: 60%;
-  height: 70%;
+  height: auto;
   padding: 2em;
   border-radius: 5px;
+  gap: 2em;
 }
 
 .moodBtn {

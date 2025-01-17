@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-const fetchData = async () => {
-  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/moods");
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return await response.json();
-};
-
-export function MoodButtons({ onMoodSelectionChange, resetToggle }) {
-  const { data, isLoading, error } = useQuery("moods", fetchData);
+export function MoodButtons({ onMoodSelectionChange, resetToggle, moodData }) {
   const [selectedMoods, setSelectedMoods] = useState([]);
 
   useEffect(() => {
@@ -23,9 +14,6 @@ export function MoodButtons({ onMoodSelectionChange, resetToggle }) {
     inputs.forEach((input) => (input.checked = false));
   }, [resetToggle]);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
   const handleToggleMood = (mood) => {
     if (selectedMoods.includes(mood)) {
       setSelectedMoods(selectedMoods.filter((m) => m.id !== mood.id));
@@ -36,7 +24,7 @@ export function MoodButtons({ onMoodSelectionChange, resetToggle }) {
 
   return (
     <div className="d-flex flex-row justify-content-center flex-wrap">
-      {data.map((mood) => (
+      {moodData.map((mood) => (
         <div id="box" key={mood.id}>
           <input
             id={`mood-${mood.id}`}
