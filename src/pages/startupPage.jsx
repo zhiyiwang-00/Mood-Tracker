@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const fetchData = async () => {
@@ -6,7 +6,6 @@ const fetchData = async () => {
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  // const data = await response.json();
   return response.json();
 };
 
@@ -19,7 +18,6 @@ const registerUser = async(newUser) => {
   if (!response.ok) {
     throw new Error("Failed to register user");
   }
-  // const data = await response.json();
   return response.json();
 }
 
@@ -33,20 +31,33 @@ export function Startup(){
     },
   });
 
-  const [userId, setUserId] = useState(null);
-  const [message, setMessage] = useState("");
+  // const [userId, setUserId] = useState(null);
+  // const [message, setMessage] = useState("");
+  // const [moodHistory, setMoodHistory] = useState([]);
+  const [ableToLogin, setAbleToLogin] = useState(false);
 
-  async function searchUser(){
-    const usernameInput = document.getElementById("user_name").value.trim();;
+  async function handleUser(){
+    if(localStorage.getItem("user") !== null){
+      let temp = JSON.parse(localStorage.getItem("user"));
+      alert(`User ${temp.username} is logged in!`)
+      return;
+    }
+
+    const usernameInput = document.getElementById("username").value.trim();;
 
     const user = data.find(user => user.username === usernameInput);
-    if(user){
-      setUserId(user.id);
-      setMessage("")
-      alert(`Welcome back, ${user.username}!`);
-    } else {
-      const newId = data.length > 0 ? Math.max(...data.map(user => user.id)) + 1 : 1;
 
+    if(user){//if user exists
+      // setUserId(user.id);
+      // setMessage("")
+      // setMoodHistory(user.mood_history);
+
+      localStorage.setItem('user', JSON.stringify(user));
+      alert(`Welcome back, ${user.username}!`);
+
+      setAbleToLogin(true);
+    } else { //else register new user
+      const newId = data.length > 0 ? Math.max(...data.map(user => user.id)) + 1 : 1;
       const newUser = {
         id: newId,
         username: usernameInput,
@@ -55,9 +66,15 @@ export function Startup(){
 
       try {
         await mutation.mutateAsync(newUser);
-        setMessage(`User "${newUser.username}" registered successfully with ID: ${newUser.id}!`);
-        setUserId(null);
+
+        // setMessage(`User "${newUser.username}" registered successfully with ID: ${newUser.id}!`);
+        // setUserId(newUser.id);
+        // setMoodHistory(newUser.mood_history);
+
+        localStorage.setItem('user', JSON.stringify(newUser));
         alert(`Welcome, ${newUser.username}!`);
+
+        setAbleToLogin(true);
       } catch (error) {
         console.error(error);
         alert("Failed to register user");
@@ -65,18 +82,37 @@ export function Startup(){
     }
   }
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        document.getElementById("startButton").click();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+  };
+  }, []);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  if(ableToLogin){
+    window.location.href = "/profilePage";
+  }
 
     return (
         <>
         <div className="login-window">
-          <input type="text" placeholder="Enter your name" id="user_name" />
+          <input type="text" placeholder="Enter your name" id="username" />
           <br /><br />
-          <button onClick={searchUser}>Start</button>
+          <button  type="submit" onClick={handleUser} id="startButton">Start</button>
         </div>
-        {userId && <p>User ID: {userId}</p>}
+        {/* {userId && <p>User ID: {userId}</p>}
+        
         {message && <p>{message}</p>}
+        {moodHistory && <p>{moodHistory}</p>} */}
         </> 
       );
 };
