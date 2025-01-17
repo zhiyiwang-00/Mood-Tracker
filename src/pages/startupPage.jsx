@@ -50,7 +50,7 @@ export function Startup(){
       const newUser = {
         id: newId,
         username: usernameInput,
-        affirmations: []
+        mood_history: []
       };
 
       try {
