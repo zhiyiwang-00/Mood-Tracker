@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 export function Profile() {
   const [moodData, setMoodData] = useState([]);
   const [overallMood, setOverallMood] = useState(null);
+  const [affirmationQuote, setAffirmationQuote] = useState(null);
+  const [affirmationImg, setAffirmationImg] = useState(null);
 
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   if (!loggedInUser) {
@@ -21,7 +23,6 @@ export function Profile() {
         console.error("Error fetching mood data:", error);
       }
     };
-
     fetchMoodData();
   }, []);
 
@@ -45,6 +46,27 @@ export function Profile() {
       setOverallMood(mostOccurred.category);
     }
   }, [moodData, loggedInUser.mood_history]);
+
+  useEffect(() => {
+    const fetchAffirmationData = async () => {
+      try {
+        const response = await fetch(url + "/affirmations");
+        const data = await response.json();
+
+        if (overallMood) {
+          const affirmation = data.find((affirmation) => affirmation.category === overallMood);
+          const randomIndex = Math.floor(Math.random() * affirmation.quotes.length);
+          setAffirmationQuote(affirmation.quotes[randomIndex]);
+          setAffirmationImg(affirmation.image);
+        }
+      } catch (error) {
+        console.error("Error fetching mood data:", error);
+      }
+    };
+    fetchAffirmationData();
+  }, [overallMood]);
+
+
 
   const allMoodEmojis = loggedInUser.mood_history.map((moodEntry) =>
     moodEntry.map((moodName) => {
@@ -83,12 +105,13 @@ export function Profile() {
         <p>
           Your overall mood has been: <span id="mood_overall">{overallMood || "Unknown"}</span>
         </p>
-        <img
-          id="affirmation_image"
-          src="https://cdn.glitch.global/adbe5892-a5eb-4b05-b388-c0923bb80a52/The%20Introvert%E2%80%99s%20Guide%20to%20Avoiding%20People.png?v=1733472878376"
-          alt="Positive affirmation"
-        />
-        <span>Affirmation quote</span>
+        {overallMood && (
+          <><img
+            id="affirmation_image"
+            src={affirmationImg}
+            alt={`${overallMood} affirmation`} />
+            <br />
+            <span>{affirmationQuote}</span></>)}
       </div>
     </div>
   );
