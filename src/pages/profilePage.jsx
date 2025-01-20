@@ -39,7 +39,8 @@ export function Profile() {
       });
 
       const mostOccurred = Object.entries(categoryCounts).reduce(
-        (max, [category, count]) => (count > max.count ? { category, count } : max),
+        (max, [category, count]) =>
+          count > max.count ? { category, count } : max,
         { category: null, count: 0 }
       );
 
@@ -66,12 +67,33 @@ export function Profile() {
     fetchAffirmationData();
   }, [overallMood]);
 
+  useEffect(() => {
+    const fetchAffirmationData = async () => {
+      try {
+        const response = await fetch(url + "/affirmations");
+        const data = await response.json();
 
+        if (overallMood) {
+          const affirmation = data.find(
+            (affirmation) => affirmation.category === overallMood
+          );
+          const randomIndex = Math.floor(
+            Math.random() * affirmation.quotes.length
+          );
+          setAffirmationQuote(affirmation.quotes[randomIndex]);
+          setAffirmationImg(affirmation.image);
+        }
+      } catch (error) {
+        console.error("Error fetching mood data:", error);
+      }
+    };
+    fetchAffirmationData();
+  }, [overallMood]);
 
-  const allMoodEmojis = loggedInUser.mood_history.map((moodEntry) =>
+  const allMoods = loggedInUser.mood_history.map((moodEntry) =>
     moodEntry.map((moodName) => {
       const matchingMood = moodData.find((mood) => mood.name === moodName);
-      return matchingMood ? matchingMood.emoji : null;
+      return matchingMood ? matchingMood : null;
     })
   );
 
@@ -87,15 +109,17 @@ export function Profile() {
       <div className="mood-history-display d-flex justify-content-between">
         <div>
           <p>Mood Log History</p>
-          {allMoodEmojis.length > 0 ? (
-            allMoodEmojis.map((moodEmojis, index) => (
-              <div key={index} className="fs-3">
-                {moodEmojis.join(" ") || "None"}
-              </div>
-            ))
-          ) : (
-            <p>No mood history found</p>
-          )}
+          {allMoods.map((moodObjects, index) => (
+            <div key={index}>
+              {moodObjects.map((mood, moodIndex) =>
+                mood ? (
+                  <span key={moodIndex} title={mood.name} className="fs-3 m-2">
+                    {mood.emoji}
+                  </span>
+                ) : null
+              )}
+            </div>
+          ))}
         </div>
         <button id="clear_history" onClick={clearMoodHistory}>
           Clear Mood Log History
@@ -103,15 +127,20 @@ export function Profile() {
       </div>
       <div className="affirmation-display">
         <p>
-          Your overall mood has been: <span id="mood_overall">{overallMood || "Unknown"}</span>
+          Your overall mood has been:{" "}
+          <span id="mood_overall">{overallMood || "Unknown"}</span>
         </p>
         {overallMood && (
-          <><img
-            id="affirmation_image"
-            src={affirmationImg}
-            alt={`${overallMood} affirmation`} />
+          <>
+            <img
+              id="affirmation_image"
+              src={affirmationImg}
+              alt={`${overallMood} affirmation`}
+            />
             <br />
-            <span>{affirmationQuote}</span></>)}
+            <span>{affirmationQuote}</span>
+          </>
+        )}
       </div>
     </div>
   );
