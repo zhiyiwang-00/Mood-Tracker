@@ -114,24 +114,35 @@ export function Profile() {
   return (
     <div className="mainContainer">
       <div className="mood-history-display d-flex justify-content-between">
-        <div>
+          <div>
           <p>Mood Log History</p>
           {allMoods.map((moodObjects, index) => (
             <div key={index}>
               {moodObjects.map((mood, moodIndex) =>
                 mood ? (
-                  <span key={moodIndex} title={mood.name} className="fs-3 m-2">
-                    {mood.emoji}
-                  </span>
+                  isLoading ? (
+                    <div
+                      key={`loading-${moodIndex}`}
+                      className="spinner-border text-secondary"
+                      role="status"
+                    >
+                      <span className="sr-only"></span>
+                    </div>
+                  ) : (
+                    <span key={moodIndex} title={mood.name} className="fs-3 m-2">
+                      {mood.emoji}
+                    </span>
+                  )
                 ) : null
               )}
             </div>
           ))}
-        </div>
-        <button id="clear_history" onClick={clearMoodHistory}>
-          Clear Mood Log History
-        </button>
+          </div>
+          <button id="clear_history" onClick={clearMoodHistory}>
+            Clear Mood Log History
+          </button>
       </div>
+
       <div className="affirmation-display">
         {overallMood && (
           isLoading ? (
@@ -147,13 +158,13 @@ export function Profile() {
                 id="affirmation_image"
                 src={affirmationImg}
                 alt={`${overallMood} affirmation`}
+                style={{ display: isLoading ? "none" : "block" }}
               />
               <br />
               <span>{affirmationQuote}</span>
             </>
           )
         )}
-      </div></div>
-      );
-
+      </div>
+    </div>)
 }
