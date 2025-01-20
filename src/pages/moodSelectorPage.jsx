@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { MoodButtons } from "../components/moodButtons";
 
 export function MoodSelector() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [moodData, setMoodData] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
   const [resetToggle, setResetToggle] = useState(false);
@@ -10,16 +12,17 @@ export function MoodSelector() {
   useEffect(() => {
     const fetchMoodData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(
-          url+"/moods"
+          url + "/moods"
         );
         const data = await response.json();
         setMoodData(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching mood data:", error);
       }
     };
-
     fetchMoodData();
   }, []);
 
@@ -45,7 +48,7 @@ export function MoodSelector() {
       };
 
       const response = await fetch(
-        url+`/affirmation_users/${loggedInUser.id}`,
+        url + `/affirmation_users/${loggedInUser.id}`,
         {
           method: "PATCH",
           headers: {
@@ -82,11 +85,18 @@ export function MoodSelector() {
   return (
     <div className="mainContainer">
       <div id="container" className="d-flex flex-column justify-content-around">
-        <MoodButtons
-          moodData={moodData}
-          onMoodSelectionChange={handleMoodSelection}
-          resetToggle={resetToggle}
-        />
+        {isLoading ? (
+          <div className="spinner-border text-secondary" role="status">
+            <span className="sr-only"></span>
+          </div>
+        ) : (
+          <MoodButtons
+            moodData={moodData}
+            onMoodSelectionChange={handleMoodSelection}
+            resetToggle={resetToggle}
+          />
+        )
+        }
         <div>
           <p id="lastEntry" className="fs-4">
             Last mood entry: <span>{lastMoodEmojis.join(" ")}</span>
@@ -102,6 +112,6 @@ export function MoodSelector() {
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
