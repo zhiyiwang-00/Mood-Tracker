@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
+
 export function Profile() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [moodData, setMoodData] = useState([]);
   const [overallMood, setOverallMood] = useState(null);
   const [affirmationQuote, setAffirmationQuote] = useState(null);
@@ -16,9 +19,11 @@ export function Profile() {
   useEffect(() => {
     const fetchMoodData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(url + "/moods");
         const data = await response.json();
         setMoodData(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching mood data:", error);
       }
@@ -50,6 +55,7 @@ export function Profile() {
   useEffect(() => {
     const fetchAffirmationData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(url + "/affirmations");
         const data = await response.json();
 
@@ -58,6 +64,7 @@ export function Profile() {
           const randomIndex = Math.floor(Math.random() * affirmation.quotes.length);
           setAffirmationQuote(affirmation.quotes[randomIndex]);
           setAffirmationImg(affirmation.image);
+          setIsLoading(false);
         }
       } catch (error) {
         console.error("Error fetching mood data:", error);
@@ -88,7 +95,11 @@ export function Profile() {
         <div>
           <p>Mood Log History</p>
           {allMoodEmojis.length > 0 ? (
-            allMoodEmojis.map((moodEmojis, index) => (
+            isLoading ? (
+              <div className="spinner-border text-secondary" role="status">
+                <span className="sr-only"></span>
+              </div>
+            ) : allMoodEmojis.map((moodEmojis, index) => (
               <div key={index} className="fs-3">
                 {moodEmojis.join(" ") || "None"}
               </div>
@@ -102,17 +113,26 @@ export function Profile() {
         </button>
       </div>
       <div className="affirmation-display">
-        <p>
-          Your overall mood has been: <span id="mood_overall">{overallMood || "Unknown"}</span>
-        </p>
         {overallMood && (
-          <><img
-            id="affirmation_image"
-            src={affirmationImg}
-            alt={`${overallMood} affirmation`} />
-            <br />
-            <span>{affirmationQuote}</span></>)}
-      </div>
-    </div>
-  );
+          isLoading ? (
+            <div className="spinner-border text-secondary" role="status">
+              <span className="sr-only"></span>
+            </div>
+          ) : (
+            <>
+              <p>
+                Your overall mood has been: <span id="mood_overall">{overallMood || "Unknown"}</span>
+              </p>
+              <img
+                id="affirmation_image"
+                src={affirmationImg}
+                alt={`${overallMood} affirmation`}
+              />
+              <br />
+              <span>{affirmationQuote}</span>
+            </>
+          )
+        )}
+      </div></div>
+      );
 }
