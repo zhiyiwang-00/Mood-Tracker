@@ -68,7 +68,9 @@ export function Profile() {
     }
   }, [affData, overallMood]);
 
-  const allMoods = loggedInUser.mood_history?.map((moodEntry) =>
+  const allMoods = loggedInUser.mood_history
+  ?.slice(-10)
+  .map((moodEntry) =>
     moodEntry.map((moodName) => {
       const matchingMood = moodData?.find((mood) => mood.name === moodName);
       return matchingMood ? matchingMood : null;
