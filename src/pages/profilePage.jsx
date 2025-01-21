@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { MoodLog } from "../components/moodLog";
+import { AffirmationDisplay } from "../components/affirmationDisplay";
 
-// const url = "https://troubled-fuchsia-crocodile.glitch.me";
+const url = "https://troubled-fuchsia-crocodile.glitch.me";
 
 const fetchMoodData = async () => {
-  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/moods"); // Adjust the URL if needed
+  const response = await fetch(url+"/moods");
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -12,13 +14,12 @@ const fetchMoodData = async () => {
 };
 
 const fetchAffirmationData = async () => {
-  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/affirmations"); // Adjust the URL if needed
+  const response = await fetch(url+"/affirmations");
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
   return response.json();
 };
-
 
 export function Profile() {
   const [overallMood, setOverallMood] = useState(null);
@@ -74,22 +75,23 @@ export function Profile() {
     })
   );
 
-  async function updateMoodHistoryOnServer(updatedMoodHistory){
+  async function updateMoodHistoryOnServer(updatedMoodHistory) {
     try {
-        const response = await fetch(`https://troubled-fuchsia-crocodile.glitch.me/affirmation_users/${loggedInUser.id}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({mood_history: updatedMoodHistory }),
-        });
-        if (!response.ok) {
-            throw new Error('Failed to update mood history on the server');            
-        }
+      const response = await fetch(url+`/affirmation_users/${loggedInUser.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mood_history: updatedMoodHistory }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update mood history on the server');
+      }
     } catch (error) {
-        console.error('Error updating mood history:', error);
+      console.error('Error updating mood history:', error);
     }
-}
+  }
+
   function clearMoodHistory() {
     const updatedMoodHistory = [];
     loggedInUser.mood_history = updatedMoodHistory;
@@ -105,49 +107,14 @@ export function Profile() {
       </div>
     </div>
   );
+
   if (moodError || affError)
     return <p>Error: {moodError ? moodError.message : affError.message}</p>;
 
   return (
     <div className="mainContainer">
-      <div className="mood-history-display d-flex justify-content-between">
-        <div>
-          <p>Mood Log History</p>
-          {allMoods.map((moodObjects, index) => (
-            <div key={index}>
-              {moodObjects.map((mood, moodIndex) =>
-                mood ? (
-                  <span key={moodIndex} title={mood.name} className="fs-3 m-2">
-                    {mood.emoji}
-                  </span>
-                ) : null
-              )}
-            </div>
-          ))}
-        </div>
-        <button id="clear_history" onClick={clearMoodHistory}>
-          Clear Mood Log History
-        </button>
-      </div>
-
-      <div className="affirmation-display">
-        {overallMood && (
-          <>
-            <p>
-              Your overall mood has been: <span id="mood_overall">{overallMood || "Unknown"}</span>
-            </p>
-            {affirmationImg && (
-              <img
-                id="affirmation_image"
-                src={affirmationImg}
-                alt={`${overallMood} affirmation`}
-              />
-            )}
-            <br />
-            <span>{affirmationQuote}</span>
-          </>
-        )}
-      </div>
+      <MoodLog allMoods={allMoods} clearMoodHistory={clearMoodHistory} />
+      <AffirmationDisplay overallMood={overallMood} affirmationImg={affirmationImg} affirmationQuote={affirmationQuote} />
     </div>
   );
 }

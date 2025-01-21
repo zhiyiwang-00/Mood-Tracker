@@ -13,7 +13,6 @@ export function Navbar() {
         <p className="title">Welcome to Mood Tracker 😁</p>
         {loggedInUser && (
             <div className="navigation">
-              {/* TODO: set startupPage as default page*/}
               <a href="/moodSelector" className="nav_table">
                 Mood Selector
               </a>
