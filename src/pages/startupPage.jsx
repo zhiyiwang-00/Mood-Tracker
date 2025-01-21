@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
+const url = "https://troubled-fuchsia-crocodile.glitch.me/affirmation_users";
+
 const fetchData = async () => {
-  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/affirmation_users"); // Adjust the URL if needed
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
   return response.json();
 };
 
-const registerUser = async(newUser) => {
-  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/affirmation_users", {
+const registerUser = async (newUser) => {
+  const response = await fetch(url, {
     method: 'POST',
-    headers: { 
+    headers: {
       "Content-Type": "application/json",
-      "x-api-key": "thisisaapikey", 
+      "x-api-key": "thisisaapikey",
     },
     body: JSON.stringify(newUser),
   });
@@ -24,9 +26,9 @@ const registerUser = async(newUser) => {
   return response.json();
 }
 
-export function Startup(){
+export function Startup() {
   const queryClient = useQueryClient();
-  const { data, isLoading, error } = useQuery("affirmation_users", fetchData); 
+  const { data, isLoading, error } = useQuery("affirmation_users", fetchData);
 
   const mutation = useMutation(registerUser, {
     onSuccess: () => {
@@ -34,13 +36,10 @@ export function Startup(){
     },
   });
 
-  // const [userId, setUserId] = useState(null);
-  // const [message, setMessage] = useState("");
-  // const [moodHistory, setMoodHistory] = useState([]);
   const [ableToLogin, setAbleToLogin] = useState(false);
 
-  async function handleUser(){
-    if(localStorage.getItem("user") !== null){
+  async function handleUser() {
+    if (localStorage.getItem("user") !== null) {
       let temp = JSON.parse(localStorage.getItem("user"));
       alert(`User ${temp.username} is logged in!`)
       return;
@@ -50,16 +49,12 @@ export function Startup(){
 
     const user = data.find(user => user.username === usernameInput);
 
-    if(user){//if user exists
-      // setUserId(user.id);
-      // setMessage("")
-      // setMoodHistory(user.mood_history);
-
+    if (user) {
       localStorage.setItem('user', JSON.stringify(user));
       alert(`Welcome back, ${user.username}!`);
 
       setAbleToLogin(true);
-    } else { //else register new user
+    } else {
       const newId = data.length > 0 ? Math.max(...data.map(user => user.id)) + 1 : 1;
       const newUser = {
         id: newId,
@@ -69,10 +64,6 @@ export function Startup(){
 
       try {
         await mutation.mutateAsync(newUser);
-
-        // setMessage(`User "${newUser.username}" registered successfully with ID: ${newUser.id}!`);
-        // setUserId(newUser.id);
-        // setMoodHistory(newUser.mood_history);
 
         localStorage.setItem('user', JSON.stringify(newUser));
         alert(`Welcome, ${newUser.username}!`);
@@ -95,27 +86,24 @@ export function Startup(){
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-  };
+    };
   }, []);
 
   if (isLoading) return <p>Loading...</p>;
+
   if (error) return <p>Error: {error.message}</p>;
 
-  if(ableToLogin){
+  if (ableToLogin) {
     window.location.href = "/profilePage";
   }
 
-    return (
-        <>
-        <div className="login-window">
-          <input type="text" placeholder="Enter your name" id="username" />
-          <br /><br />
-          <button  type="submit" onClick={handleUser} id="startButton">Start</button>
-        </div>
-        {/* {userId && <p>User ID: {userId}</p>}
-        
-        {message && <p>{message}</p>}
-        {moodHistory && <p>{moodHistory}</p>} */}
-        </> 
-      );
+  return (
+    <>
+      <div className="login-window">
+        <input type="text" placeholder="Enter your name" id="username" />
+        <br /><br />
+        <button type="submit" onClick={handleUser} id="startButton">Start</button>
+      </div>
+    </>
+  );
 };
