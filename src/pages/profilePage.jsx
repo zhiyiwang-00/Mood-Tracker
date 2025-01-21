@@ -1,38 +1,41 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+
+// const url = "https://troubled-fuchsia-crocodile.glitch.me";
+
+const fetchMoodData = async () => {
+  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/moods"); // Adjust the URL if needed
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+const fetchAffirmationData = async () => {
+  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/affirmations"); // Adjust the URL if needed
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
 
 
 export function Profile() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [moodData, setMoodData] = useState([]);
   const [overallMood, setOverallMood] = useState(null);
   const [affirmationQuote, setAffirmationQuote] = useState(null);
   const [affirmationImg, setAffirmationImg] = useState(null);
+
+  const { data: moodData, isLoading: moodIsLoading, error: moodError } = useQuery("moods", fetchMoodData);
+  const { data: affData, isLoading: affIsLoading, error: affError } = useQuery("affirmations", fetchAffirmationData);
+
 
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   if (!loggedInUser) {
     window.location.href = "/";
   }
 
-  const url = "https://troubled-fuchsia-crocodile.glitch.me";
-
   useEffect(() => {
-    const fetchMoodData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(url + "/moods");
-        const data = await response.json();
-        setMoodData(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching mood data:", error);
-      }
-    };
-    fetchMoodData();
-  }, []);
-
-  useEffect(() => {
-    if (moodData.length > 0 && loggedInUser.mood_history?.length > 0) {
+    if (moodData && loggedInUser.mood_history?.length > 0) {
       const categoryCounts = {};
 
       loggedInUser.mood_history.flat().forEach((moodName) => {
@@ -54,117 +57,97 @@ export function Profile() {
   }, [moodData, loggedInUser.mood_history]);
 
   useEffect(() => {
-    const fetchAffirmationData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(url + "/affirmations");
-        const data = await response.json();
-
-        if (overallMood) {
-          const affirmation = data.find((affirmation) => affirmation.category === overallMood);
-          const randomIndex = Math.floor(Math.random() * affirmation.quotes.length);
-          setAffirmationQuote(affirmation.quotes[randomIndex]);
-          setAffirmationImg(affirmation.image);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching mood data:", error);
+    if (overallMood && affData) {
+      const affirmation = affData.find((affirmation) => affirmation.category === overallMood);
+      if (affirmation) {
+        const randomIndex = Math.floor(Math.random() * affirmation.quotes.length);
+        setAffirmationQuote(affirmation.quotes[randomIndex]);
+        setAffirmationImg(affirmation.image);
       }
-    };
-    fetchAffirmationData();
-  }, [overallMood]);
+    }
+  }, [affData, overallMood]);
 
-  useEffect(() => {
-    const fetchAffirmationData = async () => {
-      try {
-        const response = await fetch(url + "/affirmations");
-        const data = await response.json();
-
-        if (overallMood) {
-          const affirmation = data.find(
-            (affirmation) => affirmation.category === overallMood
-          );
-          const randomIndex = Math.floor(
-            Math.random() * affirmation.quotes.length
-          );
-          setAffirmationQuote(affirmation.quotes[randomIndex]);
-          setAffirmationImg(affirmation.image);
-        }
-      } catch (error) {
-        console.error("Error fetching mood data:", error);
-      }
-    };
-    fetchAffirmationData();
-  }, [overallMood]);
-
-  const allMoods = loggedInUser.mood_history.map((moodEntry) =>
+  const allMoods = loggedInUser.mood_history?.map((moodEntry) =>
     moodEntry.map((moodName) => {
-      const matchingMood = moodData.find((mood) => mood.name === moodName);
+      const matchingMood = moodData?.find((mood) => mood.name === moodName);
       return matchingMood ? matchingMood : null;
     })
   );
 
+  async function updateMoodHistoryOnServer(updatedMoodHistory){
+    try {
+        const response = await fetch(`https://troubled-fuchsia-crocodile.glitch.me/affirmation_users/${loggedInUser.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({mood_history: updatedMoodHistory }),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to update mood history on the server');            
+        }
+    } catch (error) {
+        console.error('Error updating mood history:', error);
+    }
+}
   function clearMoodHistory() {
     const updatedMoodHistory = [];
     loggedInUser.mood_history = updatedMoodHistory;
     localStorage.setItem("user", JSON.stringify(loggedInUser));
+    updateMoodHistoryOnServer(updatedMoodHistory);
     setOverallMood(null);
   }
+
+  if (moodIsLoading || affIsLoading) return (
+    <div className="d-flex justify-content-center">
+      <div className="spinner-border text-secondary" role="status">
+        <span className="sr-only"></span>
+      </div>
+    </div>
+  );
+  if (moodError || affError)
+    return <p>Error: {moodError ? moodError.message : affError.message}</p>;
 
   return (
     <div className="mainContainer">
       <div className="mood-history-display d-flex justify-content-between">
-          <div>
+        <div>
           <p>Mood Log History</p>
           {allMoods.map((moodObjects, index) => (
             <div key={index}>
               {moodObjects.map((mood, moodIndex) =>
                 mood ? (
-                  isLoading ? (
-                    <div
-                      key={`loading-${moodIndex}`}
-                      className="spinner-border text-secondary"
-                      role="status"
-                    >
-                      <span className="sr-only"></span>
-                    </div>
-                  ) : (
-                    <span key={moodIndex} title={mood.name} className="fs-3 m-2">
-                      {mood.emoji}
-                    </span>
-                  )
+                  <span key={moodIndex} title={mood.name} className="fs-3 m-2">
+                    {mood.emoji}
+                  </span>
                 ) : null
               )}
             </div>
           ))}
-          </div>
-          <button id="clear_history" onClick={clearMoodHistory}>
-            Clear Mood Log History
-          </button>
+        </div>
+        <button id="clear_history" onClick={clearMoodHistory}>
+          Clear Mood Log History
+        </button>
       </div>
 
       <div className="affirmation-display">
         {overallMood && (
-          isLoading ? (
-            <div className="spinner-border text-secondary" role="status">
-              <span className="sr-only"></span>
-            </div>
-          ) : (
-            <>
-              <p>
-                Your overall mood has been: <span id="mood_overall">{overallMood || "Unknown"}</span>
-              </p>
+          <>
+            <p>
+              Your overall mood has been: <span id="mood_overall">{overallMood || "Unknown"}</span>
+            </p>
+            {affirmationImg && (
               <img
                 id="affirmation_image"
                 src={affirmationImg}
                 alt={`${overallMood} affirmation`}
-                style={{ display: isLoading ? "none" : "block" }}
               />
-              <br />
-              <span>{affirmationQuote}</span>
-            </>
-          )
+            )}
+            <br />
+            <span>{affirmationQuote}</span>
+          </>
         )}
       </div>
-    </div>)
+    </div>
+  );
 }

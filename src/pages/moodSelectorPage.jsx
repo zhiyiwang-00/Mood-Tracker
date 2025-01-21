@@ -1,30 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MoodButtons } from "../components/moodButtons";
+import { useQuery } from "react-query";
+
+const fetchMoodData = async () => {
+  const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/moods"); 
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
 
 export function MoodSelector() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [moodData, setMoodData] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
   const [resetToggle, setResetToggle] = useState(false);
+
+
+  const { data: moodData, isLoading: moodIsLoading, error: moodError } = useQuery("moods", fetchMoodData);
+  // const { data: userData, isLoading: userIsLoading, error: userError } = useQuery("affirmation_users", fetchUserData);
+  
+  
   const url = "https://troubled-fuchsia-crocodile.glitch.me";
 
-  useEffect(() => {
-    const fetchMoodData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          url + "/moods"
-        );
-        const data = await response.json();
-        setMoodData(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching mood data:", error);
-      }
-    };
-    fetchMoodData();
-  }, []);
+ 
 
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   if (!loggedInUser) {
@@ -53,12 +51,14 @@ export function MoodSelector() {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+             "x-api-key": "thisisaapikey",
           },
           body: JSON.stringify({
             mood_history: updatedMoodHistory,
           }),
         }
       );
+
 
       if (!response.ok) {
         throw new Error("Failed to update mood history");
@@ -78,25 +78,29 @@ export function MoodSelector() {
     : [];
 
   const lastMoodEmojis = lastMoodEntry.map((moodName) => {
-    const matchingMood = moodData.find((mood) => mood.name === moodName);
+    const matchingMood = moodData?.find((mood) => mood.name === moodName);
     return matchingMood ? matchingMood.emoji : null;
   });
+
+  if (moodIsLoading) return (
+    <div className="d-flex justify-content-center">
+      <div className="spinner-border text-secondary" role="status">
+        <span className="sr-only"></span>
+      </div>
+    </div>
+  );
+  if (moodError)
+    return <p>Error: {moodError && moodError.message }</p>;
+
 
   return (
     <div className="mainContainer">
       <div id="container" className="d-flex flex-column justify-content-around">
-        {isLoading ? (
-          <div className="spinner-border text-secondary" role="status">
-            <span className="sr-only"></span>
-          </div>
-        ) : (
           <MoodButtons
             moodData={moodData}
             onMoodSelectionChange={handleMoodSelection}
             resetToggle={resetToggle}
           />
-        )
-        }
         <div>
           <p id="lastEntry" className="fs-4">
             Last mood entry: <span>{lastMoodEmojis.join(" ")}</span>

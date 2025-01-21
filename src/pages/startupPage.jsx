@@ -12,7 +12,10 @@ const fetchData = async () => {
 const registerUser = async(newUser) => {
   const response = await fetch("https://troubled-fuchsia-crocodile.glitch.me/affirmation_users", {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      "Content-Type": "application/json",
+      "x-api-key": "thisisaapikey", 
+    },
     body: JSON.stringify(newUser),
   });
   if (!response.ok) {
@@ -23,7 +26,7 @@ const registerUser = async(newUser) => {
 
 export function Startup(){
   const queryClient = useQueryClient();
-  const { data, isLoading, error } = useQuery("affirmation_users", fetchData); // 'moods' is the unique key for this query
+  const { data, isLoading, error } = useQuery("affirmation_users", fetchData); 
 
   const mutation = useMutation(registerUser, {
     onSuccess: () => {
