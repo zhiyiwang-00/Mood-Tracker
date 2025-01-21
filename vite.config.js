@@ -4,4 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: "https://mood-tracker-onvfyebrs-zhiyiwang-00s-projects.vercel.app/"
 })
