@@ -86,7 +86,6 @@ body {
 }
 
 button:hover {
-  background-color: #eac7a6;
   scale: 0.95;
 }
 
@@ -99,7 +98,6 @@ span {
   display: flex;
   flex-direction: column;
   width: 25%;
-  height: 90%;
   border-radius: 10px;
   background-color: #F7EF99;
   padding: 2em;
@@ -121,7 +119,6 @@ span {
   display: flex;
   flex-direction: column;
   width: 45%;
-  height: 90%;
   border-radius: 10px;
   background-color: #F7EF99;
   padding: 2em;
@@ -134,16 +131,10 @@ span {
   margin: 0 auto;
 }
 
-#mood_overall {
-  color: black;
-}
-
 .mainContainer {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 80vh;
-  align-items: center;
+  align-items: stretch;  
   justify-content: center;
   gap: 2em;
   padding: 2em;
@@ -153,7 +144,6 @@ span {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 80vh;
   align-items: center;
   justify-content: center;
   gap: 2em;
@@ -175,6 +165,7 @@ span {
 
 #moodSubmitBtn {
   background-color: #ABE188;
+  padding: 10px 20px;
 }
 
 #box {
@@ -199,7 +190,6 @@ span {
 
   #container {
     padding: 1em;
-    margin-top: 2em;
     width: 100%;
   }
 

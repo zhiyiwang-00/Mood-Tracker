@@ -6,7 +6,7 @@ import { LoadingSpinner } from "../components/loadingSpinner";
 const url = "https://troubled-fuchsia-crocodile.glitch.me";
 
 const fetchMoodData = async () => {
-  const response = await fetch(url+"/moods");
+  const response = await fetch(url + "/moods");
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -14,7 +14,7 @@ const fetchMoodData = async () => {
 };
 
 const fetchAffirmationData = async () => {
-  const response = await fetch(url+"/affirmations");
+  const response = await fetch(url + "/affirmations");
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -69,17 +69,17 @@ export function Profile() {
   }, [affData, overallMood]);
 
   const allMoods = loggedInUser.mood_history
-  ?.slice(-10)
-  .map((moodEntry) =>
-    moodEntry.map((moodName) => {
-      const matchingMood = moodData?.find((mood) => mood.name === moodName);
-      return matchingMood ? matchingMood : null;
-    })
-  );
+    ?.slice(-10)
+    .map((moodEntry) =>
+      moodEntry.map((moodName) => {
+        const matchingMood = moodData?.find((mood) => mood.name === moodName);
+        return matchingMood ? matchingMood : null;
+      })
+    );
 
   async function updateMoodHistoryOnServer(updatedMoodHistory) {
     try {
-      const response = await fetch(url+`/affirmation_users/${loggedInUser.id}`, {
+      const response = await fetch(url + `/affirmation_users/${loggedInUser.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -102,13 +102,13 @@ export function Profile() {
     setOverallMood(null);
   }
 
-  if (moodIsLoading || affIsLoading) return <LoadingSpinner/>
+  if (moodIsLoading || affIsLoading) return <LoadingSpinner />
 
   if (moodError || affError)
     return <p>Error: {moodError ? moodError.message : affError.message}</p>;
 
   return (
-    <div className="mainContainer" >
+    <div className="mainContainer">
       <MoodLog allMoods={allMoods} clearMoodHistory={clearMoodHistory} />
       <AffirmationDisplay overallMood={overallMood} affirmationImg={affirmationImg} affirmationQuote={affirmationQuote} />
     </div>
