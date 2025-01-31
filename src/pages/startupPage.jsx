@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-
+import { LoadingSpinner } from "../components/loadingSpinner";
 const url = "https://troubled-fuchsia-crocodile.glitch.me/affirmation_users";
 
 const fetchData = async () => {
@@ -89,7 +89,7 @@ export function Startup() {
     };
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingSpinner/>;
 
   if (error) return <p>Error: {error.message}</p>;
 
@@ -101,7 +101,6 @@ export function Startup() {
     <>
       <div className="login-window">
         <input type="text" placeholder="Enter your name" id="username" />
-        <br /><br />
         <button type="submit" onClick={handleUser} id="startButton">Start</button>
       </div>
     </>

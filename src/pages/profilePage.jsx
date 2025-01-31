@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { MoodLog } from "../components/moodLog";
 import { AffirmationDisplay } from "../components/affirmationDisplay";
-
+import { LoadingSpinner } from "../components/loadingSpinner";
 const url = "https://troubled-fuchsia-crocodile.glitch.me";
 
 const fetchMoodData = async () => {
@@ -102,19 +102,13 @@ export function Profile() {
     setOverallMood(null);
   }
 
-  if (moodIsLoading || affIsLoading) return (
-    <div className="d-flex justify-content-center">
-      <div className="spinner-border text-secondary" role="status">
-        <span className="sr-only"></span>
-      </div>
-    </div>
-  );
+  if (moodIsLoading || affIsLoading) return <LoadingSpinner/>
 
   if (moodError || affError)
     return <p>Error: {moodError ? moodError.message : affError.message}</p>;
 
   return (
-    <div className="mainContainer">
+    <div className="mainContainer" >
       <MoodLog allMoods={allMoods} clearMoodHistory={clearMoodHistory} />
       <AffirmationDisplay overallMood={overallMood} affirmationImg={affirmationImg} affirmationQuote={affirmationQuote} />
     </div>

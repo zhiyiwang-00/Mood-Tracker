@@ -32,7 +32,7 @@ export function MoodButtons({ onMoodSelectionChange, resetToggle, moodData }) {
             onChange={() => handleToggleMood(mood)}
           />
           <label
-            className="btn btn-light rounded-pill moodBtn"
+            className="btn btn-light rounded-pill moodBtn py-3"
             htmlFor={`mood-${mood.id}`}
           >
             {mood.name} {mood.emoji}

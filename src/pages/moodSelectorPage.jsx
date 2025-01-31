@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MoodButtons } from "../components/moodButtons";
 import { useQuery } from "react-query";
-
+import { LoadingSpinner } from "../components/loadingSpinner";
 const url = "https://troubled-fuchsia-crocodile.glitch.me";
 
 const fetchMoodData = async () => {
@@ -75,13 +75,7 @@ export function MoodSelector() {
     return matchingMood ? matchingMood.emoji : null;
   });
 
-  if (moodIsLoading) return (
-    <div className="d-flex justify-content-center">
-      <div className="spinner-border text-secondary" role="status">
-        <span className="sr-only"></span>
-      </div>
-    </div>
-  );
+  if (moodIsLoading) return <LoadingSpinner />
 
   if (moodError)
     return <p>Error: {moodError && moodError.message}</p>;
@@ -101,7 +95,8 @@ export function MoodSelector() {
         </div>
         <div className="d-flex flex-row justify-content-end">
           <button
-            className="btn btn-dark rounded"
+            id="moodSubmitBtn"
+            className="btn rounded"
             onClick={submit}
             disabled={selectedMoods.length === 0}
           >
