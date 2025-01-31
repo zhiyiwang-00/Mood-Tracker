@@ -100,7 +100,6 @@ span {
   flex-direction: column;
   width: 25%;
   height: 90%;
-  margin-top: 2em;
   border-radius: 10px;
   background-color: #F7EF99;
   padding: 2em;
@@ -115,6 +114,7 @@ span {
   cursor: pointer;
   transition: background-color 0.1s;
   padding: 10px;
+  margin-top: 1em;
 }
 
 .affirmation-display {
@@ -122,7 +122,6 @@ span {
   flex-direction: column;
   width: 45%;
   height: 90%;
-  margin-top: 2em;
   border-radius: 10px;
   background-color: #F7EF99;
   padding: 2em;
@@ -147,6 +146,7 @@ span {
   align-items: center;
   justify-content: center;
   gap: 2em;
+  padding: 2em;
 }
 
 .moodContainer {
@@ -186,21 +186,21 @@ span {
   .mainContainer {
     flex-direction: column;
     height: 100%;
-    gap: 0;
+    gap: 2;
   }
 
   .mood-history-display {
-    width: 80%;
+    width: 100%;
   }
 
   .affirmation-display {
-    width: 80%;
+    width: 100%;
   }
 
   #container {
     padding: 1em;
     margin-top: 2em;
-    width: 80%;
+    width: 100%;
   }
 
   #box {
